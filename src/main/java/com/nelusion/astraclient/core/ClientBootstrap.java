@@ -1,6 +1,6 @@
 package com.nelusion.astraclient.core;
 
-import com.nelusion.astraclient.event.EventService;
+import com.nelusion.astraclient.Astra;
 
 public final class ClientBootstrap {
 
@@ -16,8 +16,6 @@ public final class ClientBootstrap {
 
         initialized = true;
 
-        ServiceRegistry.register(EventService.getInstance());
-
-        ServiceRegistry.initialize();
+        Astra.services().initialize();
     }
 }
