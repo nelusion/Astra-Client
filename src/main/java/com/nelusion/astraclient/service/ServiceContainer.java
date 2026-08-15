@@ -1,5 +1,7 @@
 package com.nelusion.astraclient.service;
 
+import com.nelusion.astraclient.logging.LoggerService;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +9,10 @@ import java.util.Map;
 public final class ServiceContainer {
 
     private final Map<Class<? extends Service>, Service> services = new HashMap<>();
+
+    public void registerDefaults() {
+        register(new LoggerService());
+    }
 
     public <T extends Service> void register(T service) {
         services.put(service.getClass(), service);
