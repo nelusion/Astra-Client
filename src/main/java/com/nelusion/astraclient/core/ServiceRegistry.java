@@ -5,28 +5,28 @@ import java.util.List;
 
 public final class ServiceRegistry {
 
-    private static final List<Object> SERVICES = new ArrayList<>();
+    private static final List<Service> SERVICES = new ArrayList<>();
 
     private ServiceRegistry() {
     }
 
-    public static void register(Object service) {
+    public static void register(Service service) {
         SERVICES.add(service);
     }
 
-    public static List<Object> getServices() {
-        return List.copyOf(SERVICES);
-    }
-
     public static void initialize() {
-        for (Object service : SERVICES) {
-            if (service instanceof Initializable initializable) {
-                initializable.initialize();
-            }
+        for (Service service : SERVICES) {
+            service.initialize();
         }
     }
 
-    public interface Initializable {
-        void initialize();
+    public static void shutdown() {
+        for (Service service : SERVICES) {
+            service.shutdown();
+        }
+    }
+
+    public static List<Service> getServices() {
+        return List.copyOf(SERVICES);
     }
 }
