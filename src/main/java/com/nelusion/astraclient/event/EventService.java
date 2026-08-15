@@ -1,6 +1,6 @@
 package com.nelusion.astraclient.event;
 
-import com.nelusion.astraclient.core.Service;
+import com.nelusion.astraclient.service.Service;
 
 public final class EventService implements Service {
 
