@@ -1,5 +1,6 @@
 package com.nelusion.astraclient;
 
+import com.nelusion.astraclient.core.ClientBootstrap;
 import net.fabricmc.api.ModInitializer;
 
 public class AstraClient implements ModInitializer {
@@ -9,6 +10,6 @@ public class AstraClient implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        System.out.println(NAME + " " + VERSION + " initialized.");
+        ClientBootstrap.initialize();
     }
 }
