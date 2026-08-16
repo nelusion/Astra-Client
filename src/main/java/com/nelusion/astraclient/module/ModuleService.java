@@ -15,13 +15,11 @@ public final class ModuleService implements Service {
     public void initialize() {
         manager.register(new BlockHitModule());
 
-        manager.initialize();
-
-        System.out.println("[Astra] Module service initialized");
+        System.out.println("[Astra] ModuleService initialized");
 
         for (Module module : manager.getModules()) {
             System.out.println(
-                    "[Astra] Module: "
+                    "[Astra] Loaded module: "
                             + module.getName()
                             + " | Modes: "
                             + module.supportedModes()
