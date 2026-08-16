@@ -1,6 +1,7 @@
 package com.nelusion.astraclient.module;
 
 import com.nelusion.astraclient.combat.CombatMode;
+import com.nelusion.astraclient.combat.CombatModeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +9,21 @@ import java.util.List;
 public final class ModuleManager {
 
     private final List<Module> modules = new ArrayList<>();
+    private final CombatModeService combatModeService;
 
-    private CombatMode activeMode = CombatMode.ONE_EIGHT;
+    public ModuleManager(CombatModeService combatModeService) {
+        this.combatModeService = combatModeService;
+    }
 
     public void register(Module module) {
         modules.add(module);
     }
 
     public void initialize() {
+        refreshModules();
+    }
+
+    public void refreshModules() {
         for (Module module : modules) {
             if (!isAvailable(module)) {
                 module.setEnabled(false);
@@ -34,25 +42,16 @@ public final class ModuleManager {
     }
 
     public boolean isAvailable(Module module) {
-        return module.supportedModes().contains(activeMode);
-    }
-
-    public void setActiveMode(CombatMode mode) {
-        this.activeMode = mode;
-
-        for (Module module : modules) {
-            if (!isAvailable(module)) {
-                module.setEnabled(false);
-            }
-        }
-
-        System.out.println(
-                "[Astra] PvP mode switched to: " + mode
-        );
+        return module.supportedModes().contains(combatModeService.getCurrentMode());
     }
 
     public CombatMode getActiveMode() {
-        return activeMode;
+        return combatModeService.getCurrentMode();
+    }
+
+    public void setActiveMode(CombatMode mode) {
+        combatModeService.setCurrentMode(mode);
+        refreshModules();
     }
 
     public void shutdown() {
