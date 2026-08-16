@@ -16,6 +16,7 @@ public final class Bootstrap {
 
         initialized = true;
 
+        Astra.services().registerDefaults();
         Astra.services().initialize();
     }
 }
