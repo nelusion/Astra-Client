@@ -15,7 +15,21 @@ public final class CombatModeService implements Service {
             throw new IllegalArgumentException("Combat mode must not be null.");
         }
 
-        this.currentMode = mode;
+        if (currentMode == mode) {
+            return;
+        }
+
+        currentMode = mode;
+
+        System.out.println("[Astra] PvP mode switched to: " + mode.getDisplayName());
+    }
+
+    public boolean isOneEight() {
+        return currentMode == CombatMode.ONE_EIGHT;
+    }
+
+    public boolean isOneNinePlus() {
+        return currentMode == CombatMode.ONE_NINE_PLUS;
     }
 
     @Override
