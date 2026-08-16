@@ -1,19 +1,34 @@
-@Override
-public void initialize() {
-    manager.register(new BlockHitModule());
+package com.nelusion.astraclient.module;
 
-    manager.setActiveMode(
-            com.nelusion.astraclient.combat.CombatMode.ONE_NINE_PLUS
-    );
+import com.nelusion.astraclient.module.impl.combat.BlockHitModule;
+import com.nelusion.astraclient.service.Service;
 
-    System.out.println("[Astra] ModuleService initialized");
+public final class ModuleService implements Service {
 
-    for (Module module : manager.getModules()) {
-        System.out.println(
-                "[Astra] Loaded module: "
-                        + module.getName()
-                        + " | Available: "
-                        + manager.isAvailable(module)
-        );
+    private final ModuleManager manager = new ModuleManager();
+
+    public ModuleManager getManager() {
+        return manager;
+    }
+
+    @Override
+    public void initialize() {
+        manager.register(new BlockHitModule());
+
+        System.out.println("[Astra] ModuleService initialized");
+
+        for (Module module : manager.getModules()) {
+            System.out.println(
+                    "[Astra] Loaded module: "
+                            + module.getName()
+                            + " | Available: "
+                            + manager.isAvailable(module)
+            );
+        }
+    }
+
+    @Override
+    public void shutdown() {
+        manager.shutdown();
     }
 }
