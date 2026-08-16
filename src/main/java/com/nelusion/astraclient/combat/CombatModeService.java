@@ -17,4 +17,9 @@ public final class CombatModeService implements Service {
 
         this.currentMode = mode;
     }
+
+    @Override
+    public void initialize() {
+        System.out.println("[Astra] Combat mode initialized: " + currentMode.getDisplayName());
+    }
 }
