@@ -1,42 +1,60 @@
 package com.nelusion.astraclient.module;
 
 import com.nelusion.astraclient.combat.CombatMode;
-import com.nelusion.astraclient.service.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public final class ModuleManager implements Service {
+public final class ModuleManager {
 
     private final List<Module> modules = new ArrayList<>();
+
+    private CombatMode activeMode = CombatMode.ONE_EIGHT;
 
     public void register(Module module) {
         modules.add(module);
     }
 
-    public List<Module> getModules() {
-        return Collections.unmodifiableList(modules);
+    public void initialize() {
+        for (Module module : modules) {
+            if (!isAvailable(module)) {
+                module.setEnabled(false);
+            }
+        }
     }
 
-    public List<Module> getAvailableModules(CombatMode mode) {
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public List<Module> getAvailableModules() {
         return modules.stream()
-                .filter(module -> module.supportedModes().contains(mode))
+                .filter(this::isAvailable)
                 .toList();
     }
 
-    public Module getModule(String name) {
-        return modules.stream()
-                .filter(module -> module.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
+    public boolean isAvailable(Module module) {
+        return module.supportedModes().contains(activeMode);
     }
 
-    @Override
-    public void initialize() {
+    public void setActiveMode(CombatMode mode) {
+        this.activeMode = mode;
+
+        for (Module module : modules) {
+            if (!isAvailable(module)) {
+                module.setEnabled(false);
+            }
+        }
+
+        System.out.println(
+                "[Astra] PvP mode switched to: " + mode
+        );
     }
 
-    @Override
+    public CombatMode getActiveMode() {
+        return activeMode;
+    }
+
     public void shutdown() {
         modules.clear();
     }
