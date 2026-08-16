@@ -1,5 +1,6 @@
 package com.nelusion.astraclient.service;
 
+import com.nelusion.astraclient.combat.CombatModeService;
 import com.nelusion.astraclient.logging.LoggerService;
 
 import java.util.Collection;
@@ -12,6 +13,7 @@ public final class ServiceContainer {
 
     public void registerDefaults() {
         register(new LoggerService());
+        register(new CombatModeService());
     }
 
     public <T extends Service> void register(T service) {
