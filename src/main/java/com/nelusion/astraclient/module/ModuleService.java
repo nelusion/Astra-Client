@@ -1,6 +1,5 @@
 package com.nelusion.astraclient.module;
 
-import com.nelusion.astraclient.combat.CombatMode;
 import com.nelusion.astraclient.combat.CombatModeService;
 import com.nelusion.astraclient.module.impl.combat.BlockHitModule;
 import com.nelusion.astraclient.service.Service;
@@ -8,7 +7,6 @@ import com.nelusion.astraclient.service.Service;
 public final class ModuleService implements Service {
 
     private final ModuleManager manager = new ModuleManager();
-
     private final CombatModeService combatModeService;
 
     public ModuleService(CombatModeService combatModeService) {
@@ -21,12 +19,9 @@ public final class ModuleService implements Service {
 
     @Override
     public void initialize() {
-
         manager.register(new BlockHitModule());
 
-        manager.setActiveMode(
-                combatModeService.getCurrentMode()
-        );
+        manager.setActiveMode(combatModeService.getCurrentMode());
 
         System.out.println("[Astra] ModuleService initialized");
 
