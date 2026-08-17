@@ -6,11 +6,12 @@ import com.nelusion.astraclient.service.Service;
 
 public final class ModuleService implements Service {
 
-    private final ModuleManager manager = new ModuleManager();
     private final CombatModeService combatModeService;
+    private final ModuleManager manager;
 
     public ModuleService(CombatModeService combatModeService) {
         this.combatModeService = combatModeService;
+        this.manager = new ModuleManager(combatModeService);
     }
 
     public ModuleManager getManager() {
@@ -21,7 +22,7 @@ public final class ModuleService implements Service {
     public void initialize() {
         manager.register(new BlockHitModule());
 
-        manager.setActiveMode(combatModeService.getCurrentMode());
+        manager.initialize();
 
         System.out.println("[Astra] ModuleService initialized");
 
