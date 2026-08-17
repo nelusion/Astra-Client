@@ -14,8 +14,11 @@ public final class ServiceContainer {
 
     public void registerDefaults() {
         register(new LoggerService());
-        register(new CombatModeService());
-        register(new ModuleService());
+
+        CombatModeService combatModeService = new CombatModeService();
+        register(combatModeService);
+
+        register(new ModuleService(combatModeService));
     }
 
     public <T extends Service> void register(T service) {
@@ -34,8 +37,9 @@ public final class ServiceContainer {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Service> T get(Class<T> type) {
-        return type.cast(services.get(type));
+        return (T) services.get(type);
     }
 
     public Collection<Service> all() {
