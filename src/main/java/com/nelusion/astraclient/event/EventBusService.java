@@ -1,5 +1,6 @@
 package com.nelusion.astraclient.event;
 
+import com.nelusion.astraclient.event.impl.TickEvent;
 import com.nelusion.astraclient.service.Service;
 import com.nelusion.astraclient.test.TickTestListener;
 
@@ -9,7 +10,7 @@ public final class EventBusService implements Service {
     public void initialize() {
         System.out.println("[Astra] EventBus initialized");
 
-        EventBus.register(new TickTestListener());
+        EventBus.register(TickEvent.class, new TickTestListener());
     }
 
     @Override
