@@ -1,7 +1,6 @@
 package com.nelusion.astraclient.service;
 
 import com.nelusion.astraclient.combat.CombatModeService;
-import com.nelusion.astraclient.event.ClientEventService;
 import com.nelusion.astraclient.event.EventBusService;
 import com.nelusion.astraclient.logging.LoggerService;
 import com.nelusion.astraclient.module.ModuleService;
@@ -15,11 +14,16 @@ public final class ServiceContainer {
     private final Map<Class<? extends Service>, Service> services = new HashMap<>();
 
     public void registerDefaults() {
-        register(new LoggerService());
-        register(new CombatModeService());
-        register(new ModuleService());
-        register(new EventBusService());
-        register(new ClientEventService());
+
+        LoggerService loggerService = new LoggerService();
+        CombatModeService combatModeService = new CombatModeService();
+        ModuleService moduleService = new ModuleService(combatModeService);
+        EventBusService eventBusService = new EventBusService();
+
+        register(loggerService);
+        register(combatModeService);
+        register(moduleService);
+        register(eventBusService);
     }
 
     public <T extends Service> void register(T service) {
